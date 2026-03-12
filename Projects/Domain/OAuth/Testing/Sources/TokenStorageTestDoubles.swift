@@ -8,6 +8,7 @@
 import Combine
 import Core
 import Foundation
+import SharedUtil
 
 // MARK: - FakeTokenStorage
 public class FakeTokenStorage: TokenStorageInterface {

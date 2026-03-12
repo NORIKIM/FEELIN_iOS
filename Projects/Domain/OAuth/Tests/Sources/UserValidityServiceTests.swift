@@ -49,7 +49,7 @@ final class UserValidityServiceTests: XCTestCase {
     func test_유저_유효성_체크시_내부에_저장되어있는_토큰이_유효하지_않다면_에러를_반환한다() throws {
         let expectedError = FeelinAPIError(
             apiFailResponse: .init(errorCode: "01004",
-            errorMessage: "토큰이 유효하지 않습니다.")
+                                   errorMessage: "토큰이 유효하지 않습니다.", data: nil)
         )
         let mockNetworkProvider = MockNetworkProvider(
             response: nil,
@@ -77,10 +77,20 @@ final class UserValidityServiceTests: XCTestCase {
         XCTAssertThrowsError(try awaitPublisher(sut.isUserValid()), "tokenError", { error in
             
             // then
+//            XCTAssertEqual(
+//                error as? AuthError,
+//                AuthError.networkError(.feelinAPIError(.tokenIsExpired(errorCode: "01004",
+//                errorMessage: "토큰이 유효하지 않습니다.")))
+//            )
+            
+//            XCTAssertEqual(
+//                error as? AuthError,
+//                AuthError.networkError(.feelinAPIError(.init(type: .tokenIsExpired, errorMessage: "")))
+//            )
+            
             XCTAssertEqual(
                 error as? AuthError,
-                AuthError.networkError(.feelinAPIError(.tokenIsExpired(errorCode: "01004",
-                errorMessage: "토큰이 유효하지 않습니다.")))
+                AuthError.networkError(.feelinAPIError(.init(apiFailResponse: APIFailResponse(errorCode: "01004", errorMessage: "토큰이 유효하지 않습니다.", data: nil))))
             )
         })
     }

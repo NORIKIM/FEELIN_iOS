@@ -9,6 +9,7 @@ import Core
 
 import Combine
 import Foundation
+import Pulse
 
 final public class MockTokenInterceptor: URLRequestInterceptor {
     public init() { }
@@ -33,6 +34,13 @@ final public class MockTokenInterceptor: URLRequestInterceptor {
         with session: URLSession,
         dueTo error: NetworkError
     ) -> AnyPublisher<RetryResult, Never> {
+        return Just(RetryResult.doNotRetry)
+            .eraseToAnyPublisher()
+    }
+    
+    public func retry(with session: any Pulse.URLSessionProtocol,
+                      dueTo error: CoreNetworkInterface.NetworkError
+    ) -> AnyPublisher<CoreNetworkInterface.RetryResult, Never> {
         return Just(RetryResult.doNotRetry)
             .eraseToAnyPublisher()
     }

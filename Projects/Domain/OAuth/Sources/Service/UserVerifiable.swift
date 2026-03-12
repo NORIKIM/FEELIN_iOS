@@ -22,7 +22,7 @@ extension UserVerifiable {
             oAuthAccessToken: oAuthToken
         )
 
-        let type = OAuthType(rawValue: oAuthProvider.rawValue) ?? .none
+        let type = OAuthType(rawValue: oAuthProvider.rawValue) ?? .none // 로그인 하는 타입
 
         return networkProvider.request(endpoint)
             .tryMap { [jwtDecoder] response -> (AccessToken, RefreshToken, UserID: Int) in
